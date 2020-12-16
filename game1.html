@@ -1,0 +1,112 @@
+<html>
+<head>
+       <meta charset="utf-8" />
+       <title>game</title>
+       <style>
+                canvas { background:blue; display: block; margin: 0 auto; }
+       </style>
+ </head>   
+
+ <body>
+        <canvas id="gamecanvas" width="900" height="650">
+         </canvas>
+        
+         <script>
+               var mycanvas = document.getElementById("gamecanvas");
+                var ctx= mycanvas.getContext("2d");
+                
+                 
+                 var radius = 25;
+                 var x = 100;
+                 var y = 100;
+                 
+                 var dx = 10;
+                 var dy = -3;
+                  
+                 var boxw=150;
+                 var boxh=10;
+                 var bXaxis=150;
+                 
+                 var rightbuttonpressred = false;
+                 var leftbuttonpressed = false;  
+
+              function keyLeftHandler(e){
+              if(e.key == "right" || e.key =="ArrowRight"){rightbuttonpressed = true;}
+                                        
+              else if (e.key=="left" ||e.key =="ArrowLeft"){leftbuttonpressed = true;}
+                                         }
+
+                function keyRightHandler(e){
+              if(e.key == "right" || e.key =="ArrowRight"){rightbuttonpressed = false;}
+                                        
+              else if (e.key=="left" ||e.key =="ArrowLeft"){leftbuttonpressed = false;}
+
+                                        }
+
+
+            document.addEventListener("keydown", keyLeftHandler,false);
+            document.addEventListener("keyup", keyRightHandler,false);
+                   
+               
+
+
+             function moveball()
+             { 
+
+                   ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
+
+                 //drawing circle
+                 ctx.beginPath();
+                 ctx.arc(x,y ,radius,0, Math.PI*2, false);
+                 ctx.fillStyle = "white";
+                  ctx.fill();
+                  ctx.closePath();
+
+
+                 // drawing box
+                 ctx.beginPath();
+                 ctx.rect(bXaxis, mycanvas.height-boxh,boxw , boxh );
+                 ctx.fillStyle="black";
+                 ctx.fill();
+                 ctx.closePath();
+
+               if(x + dx >mycanvas.width-radius || x + dx < radius){
+               dx = -dx;
+                   }
+                       if (y + dy <radius)
+                      { 
+                         dy = -dy;
+                       }
+                        
+                else if(y + dy >mycanvas.height-radius )
+              {if (x>bXaxis && x <bXaxis +boxw)
+                          {
+                           dy = -dy;
+                           }
+               
+                   
+                       else {
+                                 alert("GAME OVER");
+                                 document.location.reload();
+                                  clearInterval(interval);
+                             }
+                     }
+                   
+                  //to make paddle move right and left
+                     if(rightbuttonpressed && bXaxis < mycanvas.width - boxw){
+                        bXaxis +=8;
+                          }
+                     else if (leftbuttonpressed && bXaxis > 0) {
+                         bXaxis -=8;
+                        }
+                   x += dx;
+                   y += dy;
+                }
+              
+                     setInterval(moveball, 10);                 
+
+      </script>
+ </body>
+
+
+</html>
